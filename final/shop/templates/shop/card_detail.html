@@ -1,0 +1,23 @@
+{% extends "shop/base.html" %}
+{% block title %}{{ card.name }} - PokéShop{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4 text-center">
+        {% if card.images %}
+            <img src="{{ card.images.url }}" alt="{{ card.name }}" class="img-fluid rounded">
+        {% else %}
+            <img src="https://placehold.co/300x420?text={{ card.name }}" alt="{{ card.name }}" class="img-fluid rounded">
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <h1>{{ card.name }}</h1>
+        <p><strong>Set:</strong> {{ card.set.name }}</p>
+        <p><strong>Rarity:</strong> {{ card.get_rarity_display }}</p>
+        <p><strong>Type:</strong> {{ card.card_type }}</p>
+        <p><strong>Region:</strong> {{ card.get_region_display }}</p>
+        <p><strong>Card Number:</strong> {{ card.card_number }}</p>
+        <h3>${{ card.price }}</h3>
+        <button class="btn btn-primary">Add to Cart</button>
+    </div>
+</div>
+{% endblock %}
