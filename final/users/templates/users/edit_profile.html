@@ -1,0 +1,33 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}Edit Profile - Tabletopia{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4">Edit Profile</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" value="{{ request.user.email }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Bio</label>
+                <textarea name="bio" class="form-control" rows="3" maxlength="150">{{ profile.bio }}</textarea>
+                <div class="form-text text-muted">Max 150 characters</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Profile Picture</label>
+                {% if profile.profile_picture %}
+                    <div class="mb-2">
+                        <img src="{{ profile.profile_picture.url }}" width="80" height="80" class="rounded-circle object-fit-cover">
+                    </div>
+                {% endif %}
+                <input type="file" name="profile_picture" class="form-control" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+            <a href="/users/profile/" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

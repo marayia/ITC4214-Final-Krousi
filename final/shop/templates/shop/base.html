@@ -1,30 +1,140 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}PokéShop{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">PokéShop</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/">Home</a>
-                <a class="nav-link" href="/shop/">Shop</a>
-                <a class="nav-link" href="/cart/">Cart</a>
-                <a class="nav-link" href="/users/login/">Login</a>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Tabletopia - Buy and browse trading cards">
+        <title>{% block title %}Tabletopia{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'shop/css/base.css' %}">
+        {% block extra_css %}{% endblock %}
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+        <script src="{% static 'shop/js/main.js' %}" defer></script>
+    </head>
+    <body>
+
+        <nav class="tt-nav navbar navbar-expand-lg" data-bs-theme="dark">
+            <div class="container-fluid">
+
+                <a class="tt-brand navbar-brand" href="{% url 'home' %}">Tabletopia</a>
+
+                <!-- search bar always visible, sits between brand and mobile icons -->
+                <form class="tt-search flex-grow-1 mx-2" method="GET" action="{% url 'shop-index' %}">
+                    <svg fill="none" stroke="rgb(242,237,194)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;opacity:0.6;width:1rem;height:1rem;">
+                        <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/>
+                    </svg>
+                    <input type="text" name="q" placeholder="Search trading cards..." value="{{ request.GET.q }}">
+                </form>
+
+                <!-- on mobile: cart, user avatar and hamburger stay visible outside the collapse -->
+                <div class="d-flex align-items-center gap-2 d-lg-none">
+
+                    <a href="{% url 'cart-index' %}" class="tt-cart">
+                        <svg fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
+                        {% if cart_count %}<span class="tt-cart-badge">{{ cart_count }}</span>{% endif %}
+                    </a>
+
+                    {% if request.user.is_authenticated %}
+                        <div class="dropdown tt-dropdown">
+                            <a class="tt-avatar-toggle dropdown-toggle" href="#" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false"
+                               style="text-decoration:none;">
+                                {% if request.user.userprofile.profile_picture %}
+                                    <img src="{{ request.user.userprofile.profile_picture.url }}" alt="">
+                                {% else %}
+                                    {{ request.user.username|first|upper }}
+                                {% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item tt-logout" href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="tt-cart">
+                            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="18" height="18">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </a>
+                    {% endif %}
+
+                    <button class="navbar-toggler border-0" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <!-- collapses into hamburger on mobile -->
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+
+                    <!-- page links -->
+                    <div class="tt-nav-links me-auto">
+                        <a href="{% url 'home' %}"
+                           class="tt-nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                            Home
+                        </a>
+                        <a href="{% url 'shop-index' %}"
+                           class="tt-nav-link {% if request.resolver_match.url_name == 'shop-index' or request.resolver_match.url_name == 'card-detail' %}active{% endif %}">
+                            Shop
+                        </a>
+                        <a href="{% url 'about' %}"
+                           class="tt-nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                            About
+                        </a>
+                    </div>
+
+                    <!-- cart and user account on the right, desktop only -->
+                    <div class="tt-nav-right d-none d-lg-flex">
+                        <a href="{% url 'cart-index' %}" class="tt-cart">
+                            <svg fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                            </svg>
+                            {% if cart_count %}<span class="tt-cart-badge">{{ cart_count }}</span>{% endif %}
+                        </a>
+
+                        {% if request.user.is_authenticated %}
+                            <div class="dropdown tt-dropdown">
+                                <a class="tt-user-toggle dropdown-toggle" href="#" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="tt-avatar">
+                                        {% if request.user.userprofile.profile_picture %}
+                                            <img src="{{ request.user.userprofile.profile_picture.url }}" alt="">
+                                        {% else %}
+                                            {{ request.user.username|first|upper }}
+                                        {% endif %}
+                                    </div>
+                                    {{ request.user.username }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item tt-logout" href="{% url 'logout' %}">Logout</a></li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="tt-btn-login">Login</a>
+                            <a href="{% url 'register' %}" class="tt-btn-register">Register</a>
+                        {% endif %}
+                    </div>
+
+                </div>
             </div>
+        </nav>
+
+        <div class="container mt-4">
+            {% block content %}
+            {% endblock %}
         </div>
-    </nav>
 
-    <div class="container mt-4">
-        {% block content %}
-        {% endblock %}
-    </div>
+        {% block extra_js %}{% endblock %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    </body>
 </html>

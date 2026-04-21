@@ -1,0 +1,256 @@
+/* shop.css - Main stylesheet for the shop page*/
+
+/* ── Shop layout ── */
+.tt-shop-wrapper {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* ── Sidebar filters ── */
+.tt-filters {
+    width: 14rem;
+    flex-shrink: 0;
+    background: var(--tt-cream);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    position: sticky;
+    top: 1rem;
+}
+.tt-filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    /* fallback fonts in case Press Start 2P doesn't load */
+    font-family: 'Press Start 2P', 'Courier New', Courier, monospace;
+    font-size: 0.6rem;
+    color: var(--tt-dark-green);
+}
+.tt-filters-clear {
+    font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--tt-mid-green);
+    text-decoration: none;
+}
+.tt-filters-clear:hover {
+    color: var(--tt-dark-green);
+    text-decoration: underline;
+}
+.tt-filter-group {
+    margin-bottom: 1.25rem;
+}
+.tt-filter-label {
+    display: block;
+    font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--tt-dark-green);
+    margin-bottom: 0.375rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.tt-filter-select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 0.094rem solid var(--tt-mid-green);
+    background: white;
+    color: var(--tt-dark-green);
+    font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232d6a4f' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2rem;
+}
+.tt-filter-select:focus {
+    outline: none;
+    border-color: var(--tt-dark-green);
+}
+.tt-price-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 0.5rem;
+}
+.tt-price-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.094rem solid var(--tt-mid-green);
+    background: white;
+    color: var(--tt-dark-green);
+    font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    width: 100%;
+}
+.tt-price-input:focus {
+    outline: none;
+    border-color: var(--tt-dark-green);
+}
+.tt-price-sep {
+    color: var(--tt-mid-green);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.tt-filter-apply {
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--tt-dark-green);
+    color: var(--tt-cream);
+    border: none;
+    border-radius: 0.5rem;
+    font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.tt-filter-apply:hover {
+    background: var(--tt-mid-green);
+}
+
+/* ── Main content ── */
+.tt-shop-main {
+    flex: 1;
+    min-width: 0;
+}
+.tt-shop-topbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+.tt-shop-title {
+    font-family: 'Press Start 2P', 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    color: var(--tt-dark-green);
+}
+.tt-shop-count {
+    font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    font-size: 0.875rem;
+    color: var(--tt-mid-green);
+    font-weight: 600;
+}
+
+/* ── Card items ── */
+.tt-card-item {
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 0.094rem solid var(--tt-light-green);
+    transition: transform 0.15s, border-color 0.15s;
+    height: 100%;
+}
+.tt-card-item:hover {
+    transform: translateY(-0.25rem);
+    border-color: var(--tt-mid-green);
+}
+.tt-card-img-wrap {
+    background: var(--tt-light-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 5 / 7;
+    overflow: hidden;
+}
+.tt-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.tt-card-placeholder {
+    aspect-ratio: 5 / 7;
+    background: var(--tt-light-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--tt-dark-green);
+    text-align: center;
+}
+.tt-card-info {
+    padding: 0.625rem 0.75rem;
+}
+.tt-card-name {
+    font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--tt-dark-green);
+    margin-bottom: 0.125rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tt-card-meta {
+    font-size: 0.75rem;
+    color: var(--tt-mid-green);
+    margin-bottom: 0.375rem;
+    font-weight: 600;
+}
+.tt-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.tt-card-rarity {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: white;
+    background: var(--tt-mid-green);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.375rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 55%;
+}
+.tt-card-price {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--tt-dark-green);
+}
+
+/* ── No results ── */
+.tt-no-results {
+    text-align: center;
+    padding: 3rem 0;
+    color: var(--tt-mid-green);
+    font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
+    font-size: 1rem;
+}
+
+/* ── Smaller Screen: top filter bar ── */
+@media (max-width: 767px) {
+    .tt-shop-wrapper {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .tt-filters {
+        width: 100%;
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+    .tt-filters-header {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .tt-filter-group {
+        flex: 1;
+        min-width: 10rem;
+        margin-bottom: 0;
+    }
+}

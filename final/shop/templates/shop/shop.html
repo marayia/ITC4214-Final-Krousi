@@ -1,0 +1,112 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
+{% endblock %}
+
+{% block title %}Shop - Tabletopia{% endblock %}
+
+{% block content %}
+<div class="tt-shop-wrapper">
+
+    <!-- Sidebar (desktop) / Top bar (mobile) -->
+    <form method="GET" action="{% url 'shop-index' %}" id="filter-form">
+
+        <!-- Keep search query if present -->
+        {% if request.GET.q %}
+            <input type="hidden" name="q" value="{{ request.GET.q }}">
+        {% endif %}
+
+        <aside class="tt-filters">
+            <div class="tt-filters-header">
+                <span>Filters</span>
+                <a href="{% url 'shop-index' %}" class="tt-filters-clear">Clear all</a>
+            </div>
+
+            <!-- Set -->
+            <div class="tt-filter-group">
+                <label class="tt-filter-label">Set</label>
+                <select name="set" class="tt-filter-select" onchange="this.form.submit()">
+                    <option value="">All Sets</option>
+                    {% for set in sets %}
+                        <option value="{{ set.slug }}" {% if selected_set == set.slug %}selected{% endif %}>
+                            {{ set.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Rarity -->
+            <div class="tt-filter-group">
+                <label class="tt-filter-label">Rarity</label>
+                <select name="rarity" class="tt-filter-select" onchange="this.form.submit()">
+                    <option value="">All Rarities</option>
+                    {% for value, label in rarities %}
+                        <option value="{{ value }}" {% if selected_rarity == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Price range -->
+            <div class="tt-filter-group">
+                <label class="tt-filter-label">Price Range</label>
+                <div class="tt-price-inputs">
+                    <input type="number" name="price_min" class="tt-price-input"
+                           placeholder="Min" value="{{ price_min }}" min="{{ bounds.min }}" max="{{ bounds.max }}" step="0.01">
+                    <span class="tt-price-sep">–</span>
+                    <input type="number" name="price_max" class="tt-price-input"
+                           placeholder="Max" value="{{ price_max }}" min="{{ bounds.min }}" max="{{ bounds.max }}" step="0.01">
+                </div>
+                <button type="submit" class="tt-filter-apply">Apply</button>
+            </div>
+        </aside>
+    </form>
+
+    <!-- Main content -->
+    <main class="tt-shop-main">
+        <div class="tt-shop-topbar">
+            <h1 class="tt-shop-title">Browse Cards</h1>
+            <span class="tt-shop-count">{{ cards|length }} card{{ cards|length|pluralize }}</span>
+        </div>
+
+        <div class="row g-3">
+            {% for card in cards %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="{% url 'card-detail' card.id %}" class="text-decoration-none">
+                    <div class="tt-card-item">
+                        {% if card.images %}
+                            <div class="tt-card-img-wrap">
+                                <img src="{{ card.images.url }}" alt="{{ card.name }}" class="tt-card-img">
+                            </div>
+                        {% else %}
+                            <div class="tt-card-placeholder">
+                                <span>{{ card.name }}</span>
+                            </div>
+                        {% endif %}
+                        <div class="tt-card-info">
+                            <p class="tt-card-name">{{ card.name }}</p>
+                            <p class="tt-card-meta">{{ card.set.code }} · {{ card.card_number }}</p>
+                            <div class="tt-card-footer">
+                                <span class="tt-card-rarity">{{ card.get_rarity_display }}</span>
+                                <span class="tt-card-price">${{ card.price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="tt-no-results">
+                        <p>No cards found matching your filters.</p>
+                        <a href="{% url 'shop-index' %}" class="tt-filters-clear">Clear filters</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+</div>
+{% endblock %}
