@@ -1,0 +1,17 @@
+{% extends "shop/base.html" %}
+{% block title %}Delete Set - Tabletopia{% endblock %}
+{% block content %}
+
+<div class="bg-white rounded-3 shadow-sm p-4" style="max-width:500px;margin:0 auto;">
+    <h1 class="mb-3" style="font-family:'Press Start 2P',monospace;font-size:1rem;color:#dc2626;">Delete Set</h1>
+    <p style="font-family:'Nunito',sans-serif;font-size:1rem;">Are you sure you want to delete <strong>{{ set.name }}</strong>? This will also delete all cards in this set. This cannot be undone.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn" style="background:#dc2626;color:white;border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">Yes, Delete</button>
+            <a href="{% url 'admin-sets' %}" class="btn" style="border:0.094rem solid var(--tt-light-green);color:var(--tt-dark-green);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

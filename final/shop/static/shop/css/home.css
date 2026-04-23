@@ -1,0 +1,105 @@
+/* home.css - styles for the home page */
+
+/* hero section */
+.tt-hero {
+    background: var(--tt-dark-green);
+    border-radius: 1.25rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.tt-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(121, 174, 111, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.tt-hero-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(1rem, 3vw, 1.75rem);
+    color: var(--tt-cream);
+    text-shadow: 0.125rem 0.125rem 0 var(--tt-dark-shadow);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.tt-hero-tagline {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    color: rgba(242, 237, 194, 0.8);
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.tt-hero-btn {
+    background: var(--tt-cream);
+    color: var(--tt-dark-green) !important;
+    text-decoration: none !important;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+    border-radius: 1.5rem;
+    transition: background 0.15s, transform 0.1s;
+    display: inline-block;
+}
+.tt-hero-btn:hover {
+    background: white;
+    transform: scale(1.03);
+}
+
+/* section headers */
+.tt-section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.tt-section-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.8rem;
+    color: var(--tt-dark-green);
+}
+
+.tt-section-link {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--tt-mid-green);
+    text-decoration: none;
+}
+.tt-section-link:hover {
+    color: var(--tt-dark-green);
+    text-decoration: underline;
+}
+
+/* set pills */
+.tt-sets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+}
+
+.tt-set-pill {
+    background: white;
+    border: 0.094rem solid var(--tt-light-green);
+    color: var(--tt-dark-green) !important;
+    text-decoration: none !important;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    border-radius: 1.25rem;
+    transition: background 0.15s, border-color 0.15s;
+}
+.tt-set-pill:hover {
+    background: var(--tt-cream);
+    border-color: var(--tt-mid-green);
+}

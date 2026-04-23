@@ -1,22 +1,50 @@
 {% extends "shop/base.html" %}
-{% block title %}{{ card.name }} - PokéShop{% endblock %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/card_detail.css' %}">
+{% endblock %}
+
+{% block title %}{{ card.name }} - Tabletopia{% endblock %}
+
 {% block content %}
-<div class="row">
+<div class="row g-4">
+    <a href="{% url 'shop-index' %}" class="tt-btn-back mb-3 d-inline-block">← Back to Shop</a>
     <div class="col-md-4 text-center">
         {% if card.images %}
-            <img src="{{ card.images.url }}" alt="{{ card.name }}" class="img-fluid rounded">
+            <img src="{{ card.images.url }}" alt="{{ card.name }}" class="tt-card-detail-img">
         {% else %}
-            <img src="https://placehold.co/300x420?text={{ card.name }}" alt="{{ card.name }}" class="img-fluid rounded">
+            <img src="https://placehold.co/300x420?text={{ card.name }}" alt="{{ card.name }}" class="tt-card-detail-img">
         {% endif %}
     </div>
     <div class="col-md-8">
-        <h1>{{ card.name }}</h1>
-        <p><strong>Set:</strong> {{ card.set.name }}</p>
-        <p><strong>Rarity:</strong> {{ card.get_rarity_display }}</p>
-        <p><strong>Region:</strong> {{ card.get_region_display }}</p>
-        <p><strong>Card Number:</strong> {{ card.card_number }}</p>
-        <h3>${{ card.price }}</h3>
-        <button class="btn btn-primary">Add to Cart</button>
+        <div class="tt-card-detail-wrapper">
+            <h1 class="tt-card-detail-title">{{ card.name }}</h1>
+
+            <div class="tt-card-detail-meta">
+                <p><strong>Set:</strong> {{ card.set.name }} · {{ card.card_number }}</p>
+                <p><strong>Rarity:</strong> <span class="tt-card-detail-rarity">{{ card.get_rarity_display }}</span></p>
+                <p><strong>Region:</strong> {{ card.get_region_display }}</p>
+                <p><strong>Type:</strong> {{ card.card_type }}</p>
+            </div>
+
+            <p class="tt-card-detail-price">${{ card.price }}</p>
+
+            <div class="tt-card-detail-actions">
+                <a href="#" class="tt-btn-cart">Add to Cart</a>
+                <button class="tt-btn-wishlist" title="Add to wishlist">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                </button>
+            </div>
+
+            {% if not request.user.is_authenticated %}
+                <p class="mt-2 text-muted" style="font-size:0.85rem;">
+                    <a href="{% url 'login' %}">Log in</a> to add to cart or wishlist.
+                </p>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -1,7 +1,52 @@
 {% extends "shop/base.html" %}
-{% block title %}Home - PokéShop{% endblock %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/home.css' %}">
+{% endblock %}
+
+{% block title %}Tabletopia - Trading Cards{% endblock %}
+
 {% block content %}
-<h1 class="mb-4">Welcome to PokéShop</h1>
-<p class="lead">Discover the latest Pokémon cards!</p>
+
+<!-- hero -->
+<div class="tt-hero">
+    <h1 class="tt-hero-title">Your Pokémon Card Shop</h1>
+    <p class="tt-hero-tagline">Browse, collect and buy cards from every generation.</p>
+    <a href="{% url 'shop-index' %}" class="tt-hero-btn">Browse Cards</a>
+</div>
+
+<!-- browse by set -->
+<div class="tt-section-header">
+    <h2 class="tt-section-title">Browse by Set</h2>
+    <a href="{% url 'shop-index' %}" class="tt-section-link">View all →</a>
+</div>
+<div class="tt-sets mb-5">
+    {% for set in sets %}
+        <a href="{% url 'shop-index' %}?set={{ set.slug }}" class="tt-set-pill">{{ set.name }}</a>
+    {% empty %}
+        <p class="text-muted">No sets yet.</p>
+    {% endfor %}
+</div>
+
+<!-- latest cards -->
+<div class="row g-3">
+    {% for card in latest_cards %}
+    <div class="col-6 col-md-3">
+        <a href="{% url 'card-detail' card.id %}" class="text-decoration-none">
+            <div class="text-center">
+                {% if card.images %}
+                    <img src="{{ card.images.url }}" alt="{{ card.name }}" class="img-fluid rounded">
+                {% else %}
+                    <img src="https://placehold.co/200x280?text={{ card.name }}" alt="{{ card.name }}" class="img-fluid rounded">
+                {% endif %}
+                <p class="mt-2 fw-bold" style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:rgb(52,103,57);">{{ card.name }}</p>
+            </div>
+        </a>
+    </div>
+    {% empty %}
+        <p class="text-muted">No cards yet.</p>
+    {% endfor %}
+</div>
 
 {% endblock %}

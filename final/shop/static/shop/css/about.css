@@ -1,0 +1,134 @@
+/* about.css - styles for the about page */
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+}
+
+.about-card {
+    background: white;
+    border-radius: 1.25rem;
+    box-shadow: 0 0.25rem 1.5rem rgba(52, 103, 57, 0.08);
+    padding: 1.75rem;
+    font-family: 'Nunito', sans-serif;
+}
+
+/* wide card spans all 3 columns */
+.about-card-wide {
+    grid-column: 1 / -1;
+    background: var(--tt-dark-green);
+    color: var(--tt-cream);
+}
+
+.about-card-wide h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.85rem;
+    color: var(--tt-cream);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.about-card-wide p {
+    color: var(--tt-cream) !important; 
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* creator card */
+.about-creator-img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 0.25rem solid var(--tt-light-green);
+    display: block;
+    margin: 0 auto 1rem;
+}
+
+.about-creator-placeholder {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: var(--tt-light-green);
+    color: var(--tt-dark-green);
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-family: 'Nunito', sans-serif;
+}
+
+.about-creator-name {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--tt-dark-green);
+    text-align: center;
+    margin-bottom: 0.25rem;
+}
+
+.about-creator-bio {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    color: #888;
+    text-align: center;
+    font-style: italic;
+}
+
+/* why us cards */
+.about-card h3 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--tt-dark-green);
+    margin-bottom: 0.5rem;
+}
+
+.about-card p {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.about-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+/* review cards */
+.about-review-stars {
+    color: var(--tt-mid-green);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.about-review-text {
+    font-size: 0.875rem;
+    color: #555;
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+}
+
+.about-review-author {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--tt-dark-green);
+}
+
+/* responsive — stack on mobile */
+@media (max-width: 767px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-card-wide {
+        grid-column: 1;
+    }
+}

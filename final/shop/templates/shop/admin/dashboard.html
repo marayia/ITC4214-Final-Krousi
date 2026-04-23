@@ -1,0 +1,31 @@
+{% extends "shop/base.html" %}
+{% block title %}Admin Panel - Tabletopia{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 style="font-family:'Press Start 2P',monospace;font-size:1rem;color:var(--tt-dark-green);">Admin Panel</h1>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="p-4 bg-white rounded-3 shadow-sm text-center">
+            <h2 style="font-family:'Press Start 2P',monospace;font-size:1.5rem;color:var(--tt-dark-green);">{{ card_count }}</h2>
+            <p style="font-family:'Nunito',sans-serif;color:#666;">Cards</p>
+            <a href="{% url 'admin-cards' %}" class="btn btn-sm" style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">Manage</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="p-4 bg-white rounded-3 shadow-sm text-center">
+            <h2 style="font-family:'Press Start 2P',monospace;font-size:1.5rem;color:var(--tt-dark-green);">{{ set_count }}</h2>
+            <p style="font-family:'Nunito',sans-serif;color:#666;">Sets</p>
+            <a href="{% url 'admin-sets' %}" class="btn btn-sm" style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">Manage</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="p-4 bg-white rounded-3 shadow-sm text-center">
+            <h2 style="font-family:'Press Start 2P',monospace;font-size:1.5rem;color:var(--tt-dark-green);">{{ user_count }}</h2>
+            <p style="font-family:'Nunito',sans-serif;color:#666;">Users</p>
+            <a href="{% url 'admin-users' %}" class="btn btn-sm" style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">Manage</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

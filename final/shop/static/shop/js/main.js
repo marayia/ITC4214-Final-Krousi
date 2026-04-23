@@ -8,3 +8,19 @@ $(document).ready(function () {
         });
     });
 });
+
+$(document).ready(function() {
+    // apply header color from data attribute
+    const header = $('.profile-header[data-color]');
+    if (header.length) {
+        header.css('background', header.data('color'));
+    }
+
+    // color swatch selection highlight
+    $('input[name="header_color"]').on('change', function() {
+        $('input[name="header_color"]').each(function() {
+            $(this).next('.color-swatch').css('border-color', 'transparent');
+        });
+        $(this).next('.color-swatch').css('border-color', 'white');
+    });
+});

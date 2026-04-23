@@ -1,0 +1,51 @@
+{% extends "shop/base.html" %}
+{% block title %}Manage Cards - Tabletopia{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 style="font-family:'Press Start 2P',monospace;font-size:1rem;color:var(--tt-dark-green);">Cards</h1>
+    <a href="{% url 'admin-card-add' %}" class="btn" style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">+ Add Card</a>
+</div>
+
+<div class="bg-white rounded-3 shadow-sm overflow-hidden">
+    <table class="table mb-0">
+        <thead style="background:var(--tt-light-green);">
+            <tr>
+                <th style="font-family:'Nunito',sans-serif;">Image</th>
+                <th style="font-family:'Nunito',sans-serif;">Name</th>
+                <th style="font-family:'Nunito',sans-serif;">Set</th>
+                <th style="font-family:'Nunito',sans-serif;">Rarity</th>
+                <th style="font-family:'Nunito',sans-serif;">Price</th>
+                <th style="font-family:'Nunito',sans-serif;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for card in cards %}
+            <tr>
+                <td>
+                    {% if card.images %}
+                        <img src="{{ card.images.url }}" width="40" height="56" style="object-fit:cover;border-radius:0.25rem;">
+                    {% else %}
+                        <div style="width:40px;height:56px;background:var(--tt-light-green);border-radius:0.25rem;"></div>
+                    {% endif %}
+                </td>
+                <td style="font-family:'Nunito',sans-serif;font-weight:700;vertical-align:middle;">{{ card.name }}</td>
+                <td style="font-family:'Nunito',sans-serif;vertical-align:middle;">{{ card.set.code }}</td>
+                <td style="font-family:'Nunito',sans-serif;vertical-align:middle;">{{ card.get_rarity_display }}</td>
+                <td style="font-family:'Nunito',sans-serif;vertical-align:middle;">${{ card.price }}</td>
+                <td style="vertical-align:middle;">
+                    <a href="{% url 'admin-card-edit' card.id %}" class="btn btn-sm me-1" style="background:var(--tt-mid-green);color:white;border-radius:0.75rem;font-family:'Nunito',sans-serif;font-weight:700;">Edit</a>
+                    <a href="{% url 'admin-card-delete' card.id %}" class="btn btn-sm" style="background:#dc2626;color:white;border-radius:0.75rem;font-family:'Nunito',sans-serif;font-weight:700;">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="text-center text-muted py-4" style="font-family:'Nunito',sans-serif;">No cards yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-3">
+    <a href="{% url 'admin-dashboard' %}" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-mid-green);text-decoration:none;">← Back to Admin</a>
+</div>
+{% endblock %}

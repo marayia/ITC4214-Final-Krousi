@@ -1,32 +1,66 @@
 {% extends "shop/base.html" %}
 {% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'users/css/profile.css' %}">
+{% endblock %}
+
 {% block title %}Edit Profile - Tabletopia{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h2 class="mb-4">Edit Profile</h2>
+<div class="profile-card">
+
+    <div class="profile-header" data-color="{{ profile.header_color }}">
+        <p class="profile-header-title">Edit Profile</p>
+    </div>
+
+    <div class="profile-body">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+
             <div class="mb-3">
-                <label class="form-label">Email</label>
+                <label class="form-label profile-field"><strong>Email</strong></label>
                 <input type="email" name="email" class="form-control" value="{{ request.user.email }}">
             </div>
+
             <div class="mb-3">
-                <label class="form-label">Bio</label>
+                <label class="form-label profile-field"><strong>Bio</strong></label>
                 <textarea name="bio" class="form-control" rows="3" maxlength="150">{{ profile.bio }}</textarea>
                 <div class="form-text text-muted">Max 150 characters</div>
             </div>
+
             <div class="mb-3">
-                <label class="form-label">Profile Picture</label>
+                <label class="form-label profile-field"><strong>Profile Picture</strong></label>
                 {% if profile.profile_picture %}
                     <div class="mb-2">
-                        <img src="{{ profile.profile_picture.url }}" width="80" height="80" class="rounded-circle object-fit-cover">
+                        <img src="{{ profile.profile_picture.url }}" width="64" height="64"
+                             class="rounded-circle object-fit-cover"
+                             style="border: 0.2rem solid rgb(159, 203, 152);">
                     </div>
                 {% endif %}
                 <input type="file" name="profile_picture" class="form-control" accept="image/*">
             </div>
-            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
-            <a href="/users/profile/" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
+
+            <div class="mb-4">
+                <label class="form-label profile-field"><strong>Header Color</strong></label>
+                <div class="d-flex gap-2 flex-wrap mt-1">
+                    {% for value, label in profile.HEADER_COLORS %}
+                        <label class="color-swatch-label" title="{{ label }}">
+                            <input type="radio" name="header_color" value="{{ value }}"
+                                   {% if profile.header_color == value %}checked{% endif %}>
+                            <span class="color-swatch" style="background:{{ value }};"></span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr class="profile-divider">
+
+            <div class="profile-actions">
+                <button type="submit" class="profile-btn-primary">Save Changes</button>
+                <a href="{% url 'profile' %}" class="profile-btn-secondary">Cancel</a>
+            </div>
+
         </form>
     </div>
 </div>

@@ -8,19 +8,38 @@
 {% block title %}Profile - Tabletopia{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h2 class="mb-4">My Profile</h2>
-        {% if request.user.userprofile.profile_picture %}
-            <img src="{{ request.user.userprofile.profile_picture.url }}" width="80" height="80" class="rounded-circle object-fit-cover mb-3">
-        {% endif %}
-        <p><strong>Username:</strong> {{ request.user.username }}</p>
-        <p><strong>Email:</strong> {{ request.user.email }}</p>
-        {% if request.user.userprofile.bio %}
-            <p><strong>Bio:</strong><br><span class="profile-bio">{{ request.user.userprofile.bio }}</span></p>
-        {% endif %}
-        <a href="/users/profile/edit/" class="btn btn-primary me-2">Edit Profile</a>
-        <a href="/users/dashboard/" class="btn btn-outline-secondary">Dashboard</a>
+<div class="profile-card">
+
+    <div class="profile-header" data-color="{{ request.user.userprofile.header_color }}">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/{{ pokemon_id }}.gif"
+             class="profile-sprite">
+        <p class="profile-header-title">My Profile</p>
+        <div class="profile-avatar-wrap">
+            {% if request.user.userprofile.profile_picture %}
+                <img src="{{ request.user.userprofile.profile_picture.url }}" alt="" class="profile-avatar">
+            {% else %}
+                <div class="profile-avatar-placeholder">{{ request.user.username|first|upper }}</div>
+            {% endif %}
+        </div>
     </div>
+
+    <div class="profile-body">
+        <h2 class="profile-username">{{ request.user.username }}</h2>
+
+        <p class="profile-field"><strong>Email:</strong> {{ request.user.email }}</p>
+
+        {% if request.user.userprofile.bio %}
+            <p class="profile-field"><strong>Bio:</strong><br>
+            <span class="profile-bio">{{ request.user.userprofile.bio }}</span></p>
+        {% endif %}
+
+        <hr class="profile-divider">
+
+        <div class="profile-actions">
+            <a href="{% url 'edit-profile' %}" class="profile-btn-primary">Edit Profile</a>
+            <a href="{% url 'dashboard' %}" class="profile-btn-secondary">Dashboard</a>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

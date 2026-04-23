@@ -8,7 +8,12 @@
     --tt-mid-green:   rgb(121, 174, 111);
     --tt-light-green: rgb(159, 203, 152);
     --tt-cream:       rgb(242, 237, 194);
+    --tt-bg:          rgb(248, 246, 235);
     --tt-dark-shadow: rgb(35, 72, 39);
+}
+
+body {
+    background-color: var(--tt-bg);
 }
 
 /* Navbar base */
