@@ -1,9 +1,100 @@
 {% extends "shop/base.html" %}
-{% block title %}Order Confirmed - Tabletopia{% endblock %}
+{% block title %}Checkout - Tabletopia{% endblock %}
+
 {% block content %}
-<div class="text-center py-5">
-    <h1 class="mb-3" style="font-family:'Press Start 2P',monospace;font-size:1rem;color:var(--tt-dark-green);">Order Confirmed!</h1>
-    <p style="font-family:'Nunito',sans-serif;font-size:1.1rem;color:#666;">Thanks for your order. We'll be in touch soon.</p>
-    <a href="{% url 'shop-index' %}" class="btn mt-3" style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">Continue Shopping</a>
+<h1 class="mb-4" style="font-family:'Press Start 2P',monospace;font-size:1rem;color:var(--tt-dark-green);">Checkout</h1>
+
+<div class="row g-4">
+
+    <!-- shipping form -->
+    <div class="col-md-7">
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <h2 class="mb-3" style="font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:700;color:var(--tt-dark-green);">Shipping Details</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">First Name</label>
+                        <input type="text" class="form-control" maxlength="50" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Last Name</label>
+                        <input type="text" class="form-control" maxlength="50" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Email</label>
+                        <input type="email" class="form-control" value="{{ request.user.email }}" maxlength="100" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Address</label>
+                        <input type="text" class="form-control" placeholder="Street address" maxlength="100" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">City</label>
+                        <input type="text" class="form-control" maxlength="20" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Postal Code</label>
+                        <input type="text" class="form-control" maxlength="10" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Country</label>
+                        <input type="text" class="form-control" maxlength="20" required>
+                    </div>
+                </div>
+
+                <hr style="border-color:var(--tt-light-green);margin:1.5rem 0;">
+
+                <h2 class="mb-3" style="font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:700;color:var(--tt-dark-green);">Payment</h2>
+                <p style="font-family:'Nunito',sans-serif;font-size:0.9rem;color:#888;">This is a simulated checkout. No real payment is processed.</p>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Card Number</label>
+                        <input type="text" class="form-control" placeholder="**** **** **** ****" disabled>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Expiry</label>
+                        <input type="text" class="form-control" placeholder="MM/YY" disabled>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">CVV</label>
+                        <input type="text" class="form-control" placeholder="***" disabled>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn w-100 mt-4"
+                        style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;">
+                    Place Order
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- order summary -->
+    <div class="col-md-5">
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <h2 class="mb-3" style="font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:700;color:var(--tt-dark-green);">Order Summary</h2>
+            {% for item in items %}
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex align-items-center gap-2">
+                    {% if item.card.images %}
+                        <img src="{{ item.card.images.url }}" width="30" height="42" style="object-fit:cover;border-radius:0.25rem;">
+                    {% endif %}
+                    <div>
+                        <p class="mb-0" style="font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;color:var(--tt-dark-green);">{{ item.card.name }}</p>
+                        <p class="mb-0" style="font-family:'Nunito',sans-serif;font-size:0.75rem;color:#888;">Qty: {{ item.quantity }}</p>
+                    </div>
+                </div>
+                <span style="font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;color:var(--tt-dark-green);">${{ item.subtotal|floatformat:2 }}</span>
+            </div>
+            {% endfor %}
+            <hr style="border-color:var(--tt-light-green);">
+            <div class="d-flex justify-content-between">
+                <span style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Total</span>
+                <span style="font-family:'Press Start 2P',monospace;font-size:0.9rem;color:var(--tt-dark-green);">${{ total|floatformat:2 }}</span>
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

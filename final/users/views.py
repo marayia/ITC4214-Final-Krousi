@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import UserProfile
 from django import forms
+from shop.models import WishlistItem
+from cart.models import Purchase
 
 class RegisterForm(forms.Form):
     username = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -78,3 +80,23 @@ def edit_profile_view(request):
         profile.save()
         return redirect('profile')
     return render(request, 'users/edit_profile.html', {'profile': profile})
+
+# wishlist management views
+@login_required
+def dashboard_view(request):
+    # fetch the user's wishlist items for the dashboard
+    wishlist_items = WishlistItem.objects.filter(user=request.user).order_by('-added_at')
+    return render(request, 'users/dashboard.html', {'wishlist_items': wishlist_items})
+
+
+
+@login_required
+def dashboard_view(request):
+    # fetch wishlist items
+    wishlist_items = WishlistItem.objects.filter(user=request.user).order_by('-added_at')
+    # fetch recent purchases, most recent first
+    purchases = Purchase.objects.filter(user=request.user).order_by('-purchased_at')[:10]
+    return render(request, 'users/dashboard.html', {
+        'wishlist_items': wishlist_items,
+        'purchases': purchases,
+    })

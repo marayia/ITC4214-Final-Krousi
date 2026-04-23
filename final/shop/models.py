@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 # Models for card sets and individual cards (FK)
@@ -54,3 +54,15 @@ class Card(models.Model):
     
     def __str__(self):
         return f"{self.name} - {self.set.code} {self.card_number}"
+
+class WishlistItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # prevent duplicate wishlist entries for same user + card
+        unique_together = ('user', 'card')
+
+    def __str__(self):
+        return f"{self.user.username} → {self.card.name}"

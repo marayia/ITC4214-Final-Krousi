@@ -18,4 +18,8 @@ urlpatterns = [
     path('admin-panel/sets/<int:id>/edit/', views.admin_set_edit, name='admin-set-edit'),
     path('admin-panel/sets/<int:id>/delete/', views.admin_set_delete, name='admin-set-delete'),
     path('admin-panel/users/', views.admin_users, name='admin-users'),
+    
+    # wishlist URLs
+    path('wishlist/add/<int:id>/', views.wishlist_add, name='wishlist-add'),
+    path('wishlist/remove/<int:id>/', views.wishlist_remove, name='wishlist-remove'),
 ]

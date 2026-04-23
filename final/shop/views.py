@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
-from shop.models import Card, Set
+from shop.models import Card, Set, WishlistItem
 
 # Public views
 
@@ -55,10 +55,20 @@ def index(request):
         'bounds': bounds,
     })
 
+# recommendations and wishlist handling in the card detail view
 def card_detail(request, id):
-    # fetch the card by id, return 404 if it doesn't exist
     card = get_object_or_404(Card, id=id)
-    return render(request, 'shop/card_detail.html', {'card': card})
+    # recommend cards from the same set, excluding the current card
+    similar_cards = Card.objects.filter(set=card.set).exclude(id=card.id)[:4]
+    # check if card is in user's wishlist
+    in_wishlist = False
+    if request.user.is_authenticated:
+        in_wishlist = WishlistItem.objects.filter(user=request.user, card=card).exists()
+    return render(request, 'shop/card_detail.html', {
+        'card': card,
+        'in_wishlist': in_wishlist,
+        'similar_cards': similar_cards,
+    })
 
 def about(request):
     return render(request, 'shop/about.html', {})
@@ -205,3 +215,16 @@ def admin_set_delete(request, id):
 def admin_users(request):
     users = User.objects.all().order_by('-date_joined')
     return render(request, 'shop/admin/users.html', {'users': users})
+
+# Wishlist views
+@login_required
+def wishlist_add(request, id):
+    card = get_object_or_404(Card, id=id)
+    # get_or_create prevents duplicate wishlist entries
+    WishlistItem.objects.get_or_create(user=request.user, card=card)
+    return redirect('card-detail', id=id)
+
+@login_required
+def wishlist_remove(request, id):
+    WishlistItem.objects.filter(user=request.user, card__id=id).delete()
+    return redirect('card-detail', id=id)

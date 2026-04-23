@@ -10,6 +10,7 @@
 {% block content %}
 <a href="{% url 'shop-index' %}" class="tt-btn-back mb-3 d-inline-block">← Back to Shop</a>
 <div class="row g-4">
+
     <div class="col-md-4 text-center">
         {% if card.images %}
             <img src="{{ card.images.url }}" alt="{{ card.name }}" class="tt-card-detail-img">
@@ -17,6 +18,7 @@
             <img src="https://placehold.co/300x420?text={{ card.name }}" alt="{{ card.name }}" class="tt-card-detail-img">
         {% endif %}
     </div>
+
     <div class="col-md-8">
         <div class="tt-card-detail-wrapper">
             <h1 class="tt-card-detail-title">{{ card.name }}</h1>
@@ -29,6 +31,7 @@
 
             <p class="tt-card-detail-price">${{ card.price }}</p>
 
+            <!-- stock status -->
             {% if card.stock == 0 %}
                 <p style="font-family:'Nunito',sans-serif;color:#dc2626;font-weight:700;">Out of Stock</p>
             {% elif card.stock <= 3 %}
@@ -39,26 +42,72 @@
 
             <div class="tt-card-detail-actions">
                 {% if request.user.is_authenticated %}
+                    <!-- add to cart or out of stock -->
                     {% if card.stock > 0 %}
                         <a href="{% url 'add-to-cart' card.id %}" class="tt-btn-cart">Add to Cart</a>
                     {% else %}
                         <span class="tt-btn-cart" style="opacity:0.5;cursor:not-allowed;">Out of Stock</span>
                     {% endif %}
-                    <button class="tt-btn-wishlist" title="Add to wishlist">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                        </svg>
-                    </button>
+
+                    <!-- wishlist toggle — filled heart if already in wishlist -->
+                    {% if in_wishlist %}
+                        <a href="{% url 'wishlist-remove' card.id %}" class="tt-btn-wishlist active" title="Remove from wishlist">
+                            <svg fill="currentColor" viewBox="0 0 24 24" width="18" height="18">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'wishlist-add' card.id %}" class="tt-btn-wishlist" title="Add to wishlist">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </a>
+                    {% endif %}
                 {% else %}
                     <a href="{% url 'login' %}" class="tt-btn-cart">Login to Buy</a>
                 {% endif %}
             </div>
-            <!-- edit card for admin view -->
+
+            <!-- edit button for staff only -->
             {% if request.user.is_staff %}
                 <hr style="border-color:var(--tt-light-green);margin-top:1.5rem;">
                 <a href="{% url 'admin-card-edit' card.id %}" class="tt-btn-edit">Edit Card</a>
             {% endif %}
+
         </div>
     </div>
+    <!-- Same Set Cards Recommender -->
+    {% if similar_cards %}
+    <div class="tt-recommender-section">
+        <h2 class="tt-recommender-title">More from <span>{{ card.set.name }}</span> Set:</h2>
+        <div class="tt-recommender-container">
+            <div class="tt-recommender-grid">
+                {% for similar in similar_cards %}
+                    <a href="{% url 'card-detail' similar.id %}" class="text-decoration-none">
+                        <div class="tt-card-item">
+                            {% if similar.images %}
+                                <div class="tt-card-img-wrap">
+                                    <img src="{{ similar.images.url }}" alt="{{ similar.name }}" class="tt-card-img">
+                                </div>
+                            {% else %}
+                                <div class="tt-card-placeholder">
+                                    <span>{{ similar.name }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="tt-card-info">
+                                <p class="tt-card-name">{{ similar.name }}</p>
+                                <p class="tt-card-price">${{ similar.price }}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <a href="{% url 'shop-index' %}?set={{ card.set.slug }}" class="tt-recommender-viewall">
+                View All →
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
 {% endblock %}

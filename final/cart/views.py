@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from shop.models import Card
-from .models import CartItem
+from .models import CartItem, Purchase
 
 @login_required
 def cart_detail(request):
@@ -31,6 +31,27 @@ def remove_from_cart(request, id):
 
 @login_required
 def checkout(request):
-    # simulate a purchase — just clear the cart for now
-    CartItem.objects.filter(user=request.user).delete()
-    return render(request, 'cart/checkout.html', {})
+    items = CartItem.objects.filter(user=request.user)
+    # calculate subtotal per item for display
+    for item in items:
+        item.subtotal = item.card.price * item.quantity
+    total = sum(item.subtotal for item in items)
+
+    if request.method == 'POST':
+        for item in items:
+            # save purchase record before clearing cart
+            Purchase.objects.create(
+                user=request.user,
+                card=item.card,
+                quantity=item.quantity,
+                price_at_purchase=item.card.price,
+            )
+            # reduce stock
+            card = item.card
+            card.stock = max(0, card.stock - item.quantity)
+            card.save()
+        # clear the cart after purchase
+        CartItem.objects.filter(user=request.user).delete()
+        return render(request, 'cart/checkout_confirmed.html', {})
+
+    return render(request, 'cart/checkout.html', {'items': items, 'total': total})

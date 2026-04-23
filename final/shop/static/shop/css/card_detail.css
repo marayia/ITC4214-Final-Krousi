@@ -148,3 +148,84 @@
 .tt-btn-edit:hover {
     background: #a93226;
 }
+
+/* recommender section */
+.tt-recommender-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 0.094rem solid var(--tt-light-green);
+}
+
+.tt-recommender-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.85rem;
+    color: var(--tt-dark-green);
+    margin-bottom: 1.25rem;
+}
+
+.tt-recommender-title span {
+    color: var(--tt-mid-green);
+}
+
+.tt-recommender-container {
+    background: white;
+    border: 0.094rem solid var(--tt-light-green);
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.tt-recommender-grid {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.tt-recommender-grid .tt-card-item {
+    flex: 1;
+    min-width: 0;
+}
+
+.tt-recommender-viewall {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 4rem;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--tt-mid-green);
+    text-decoration: none;
+    gap: 0.25rem;
+    padding: 0.5rem;
+}
+.tt-recommender-viewall:hover {
+    color: var(--tt-dark-green);
+}
+
+.tt-recommender-grid .tt-card-img-wrap {
+    max-height: 160px;
+}
+
+.tt-recommender-grid .tt-card-img {
+    max-height: 160px;
+    object-fit: cover;
+}
+
+.tt-recommender-grid .tt-card-name {
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 0.1rem;
+}
+
+.tt-recommender-grid .tt-card-price {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--tt-dark-green);
+    margin: 0;
+}
