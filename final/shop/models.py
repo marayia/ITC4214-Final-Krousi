@@ -4,9 +4,9 @@ from django.db import models
 
 # Models for card sets and individual cards (FK)
 class Set(models.Model):
-    name = models.CharField(max_length=100) # card set name, eg "Twilight Masquerade"
+    name = models.CharField(max_length=60) # card set name, eg "Twilight Masquerade"
     code = models.CharField(max_length=10) # card set code, eg "TWM"
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, max_length=60)
 
     def __str__(self):
         return self.name
@@ -42,13 +42,14 @@ class Card(models.Model):
     ('es', 'Spanish'),
     ]
     
-    name = models.CharField(max_length=200) # card name, eg "Dreepy"
+    name = models.CharField(max_length=60) # card name, eg "Dreepy"
     set = models.ForeignKey(Set, on_delete=models.CASCADE) # foreign key to Set model
     rarity = models.CharField(max_length=25, choices=RARITY) # card rarity
     region = models.CharField(max_length=5, choices=REGION, default='en') # card region, default to EN
     card_number = models.CharField(max_length=20) # card number in the set, eg "TWM 128/167"
     images = models.ImageField(upload_to='card_images/', blank=True) # card images
-    price = models.DecimalField(max_digits=6, decimal_places=2) # card price
+    price = models.DecimalField(max_digits=7, decimal_places=2) # card price
+    stock = models.IntegerField(default=1)  # how many of this card we have
     
     
     def __str__(self):

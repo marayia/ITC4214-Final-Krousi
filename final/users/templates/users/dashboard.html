@@ -1,26 +1,39 @@
 {% extends "shop/base.html" %}
 {% load static %}
 {% block title %}Dashboard - Tabletopia{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">Welcome back, {{ request.user.username }}!</h2>
-<div class="row">
+
+<h2 class="mb-4" style="font-family:'Press Start 2P',monospace;font-size:0.9rem;color:var(--tt-dark-green);">
+    Welcome back, {{ request.user.username }}!
+</h2>
+
+{% if request.user.is_staff %}
+    <a href="{% url 'admin-dashboard' %}" class="btn mb-4"
+       style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">
+        Admin Panel
+    </a>
+{% endif %}
+
+<div class="row g-3">
     <div class="col-md-4">
-        <div class="card p-3">
-            <h5>Recently Viewed</h5>
-            <p class="text-muted">Nothing yet.</p>
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <h5 style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Recently Viewed</h5>
+            <p class="text-muted" style="font-family:'Nunito',sans-serif;font-size:0.9rem;">Nothing yet.</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card p-3">
-            <h5>Wishlist</h5>
-            <p class="text-muted">Nothing yet.</p>
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <h5 style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Wishlist</h5>
+            <p class="text-muted" style="font-family:'Nunito',sans-serif;font-size:0.9rem;">Nothing yet.</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card p-3">
-            <h5>Recent Purchases</h5>
-            <p class="text-muted">Nothing yet.</p>
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <h5 style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Recent Purchases</h5>
+            <p class="text-muted" style="font-family:'Nunito',sans-serif;font-size:0.9rem;">Nothing yet.</p>
         </div>
     </div>
 </div>
+
 {% endblock %}

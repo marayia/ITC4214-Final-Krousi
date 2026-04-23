@@ -1,15 +1,27 @@
 {% extends "shop/base.html" %}
-{% block title %}Register - PokéShop{% endblock %}
+{% block title %}Register - Tabletopia{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-4">
-        <h2 class="mb-4">Register</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary w-100">Register</button>
-        </form>
-        <p class="mt-3 text-center">Already have an account? <a href="/users/login/">Login</a></p>
+    <div class="col-md-5 col-lg-4">
+
+        <div class="bg-white rounded-3 shadow-sm p-4 mt-3">
+            <h2 class="mb-4" style="font-family:'Press Start 2P',monospace;font-size:0.9rem;color:var(--tt-dark-green);">Register</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn w-100 mt-2"
+                        style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">
+                    Create Account
+                </button>
+            </form>
+
+            <p class="mt-3 text-center" style="font-family:'Nunito',sans-serif;font-size:0.9rem;color:#666;">
+                Already have an account? <a href="{% url 'login' %}" style="color:var(--tt-mid-green);font-weight:700;">Login</a>
+            </p>
+        </div>
+
     </div>
 </div>
 {% endblock %}

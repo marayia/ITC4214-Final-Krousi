@@ -8,51 +8,55 @@
 {% block title %}About - Tabletopia{% endblock %}
 
 {% block content %}
-<div class="about-grid">
+<div class="about-layout">
 
-    <!-- wide intro card -->
-    <div class="about-card about-card-wide">
-        <h2>Welcome to Tabletopia</h2>
-        <p>Tabletopia was created for the love of collecting. With a vast personal collection of Pokémon cards built up over the years, it only made sense to build a place to call our own — somewhere to browse, buy, and find cards you never knew you needed. Whether you're a seasoned collector or just getting started, there's something here for you.</p>
-    </div>
-
-    <!-- creator card -->
-    <div class="about-card text-center">
+    <!-- creator card (left) -->
+    <div class="about-creator-card">
         <div class="about-creator-placeholder">M</div>
+        <hr class="about-creator-divider">
         <p class="about-creator-name">Maria Georgia Krousi</p>
-        <p class="about-creator-bio">"tired"</p>
+        <p class="about-creator-bio">hey! I am the admin & dev of this website. Tired but passionate collector with way too many Pokémon cards.</p>
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/470.gif" 
+        style="image-rendering:pixelated;width:5rem;margin-top:1rem;">
     </div>
 
-    <!-- why us cards -->
-    <div class="about-card">
-        <span class="about-icon">🃏</span>
-        <h3>Real Cards</h3>
-        <p>Every card in our catalogue is authentic. No fakes, no reprints — just the real thing straight from our personal collection.</p>
-    </div>
+    <!-- right side -->
+    <div class="about-right">
 
-    <div class="about-card">
-        <span class="about-icon">✨</span>
-        <h3>Rare Finds</h3>
-        <p>From common basics to hyper rares and special illustration cards — we stock cards from every era and every set.</p>
-    </div>
+        <!-- welcome card -->
+        <div class="about-welcome">
+            <h2>Welcome to Tabletopia</h2>
+            <p>Tabletopia was created for the love of collecting. With a vast personal collection of Pokémon cards built up over the years, it only made sense to build a place to call our own — somewhere to browse, buy, and find cards you never knew you needed. Whether you're a seasoned collector or just getting started, there's something here for you.</p>
+        </div>
 
-    <!-- review cards -->
-    <div class="about-card">
-        <div class="about-review-stars">★★★★★</div>
-        <p class="about-review-text">"Found the exact Gardevoir ex I'd been hunting for months. Fast and exactly as described."</p>
-        <p class="about-review-author">— Alex T.</p>
-    </div>
+        <!-- 2x2 grid -->
+        <div class="about-cards-grid">
 
-    <div class="about-card">
-        <div class="about-review-stars">★★★★★</div>
-        <p class="about-review-text">"The selection of Japanese cards here is incredible. Already placed my second order."</p>
-        <p class="about-review-author">— Nico R.</p>
-    </div>
+            <div class="about-card">
+                <span class="about-icon">🃏</span>
+                <h3>Real Cards</h3>
+                <p>Every card in our catalogue is authentic. No fakes, no reprints — just the real thing straight from our personal collection.</p>
+            </div>
 
-    <div class="about-card">
-        <div class="about-review-stars">★★★★☆</div>
-        <p class="about-review-text">"Great prices on the older sets. Picked up a few Base Set cards I thought I'd never find again."</p>
-        <p class="about-review-author">— Sam K.</p>
+            <div class="about-card">
+                <span class="about-icon">✨</span>
+                <h3>Rare Finds</h3>
+                <p>From common basics to hyper rares and special illustration cards — we stock cards from every era and every set.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="about-review-stars">★★★★★</div>
+                <p class="about-review-text">"The selection of Japanese cards here is incredible. Already placed my second order."</p>
+                <p class="about-review-author">— Nico R.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="about-review-stars">★★★★☆</div>
+                <p class="about-review-text">"Great prices on the older sets. Picked up a few Base Set cards I thought I'd never find again."</p>
+                <p class="about-review-author">— Sam K.</p>
+            </div>
+
+        </div>
     </div>
 
 </div>

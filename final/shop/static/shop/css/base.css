@@ -10,10 +10,20 @@
     --tt-cream:       rgb(242, 237, 194);
     --tt-bg:          rgb(248, 246, 235);
     --tt-dark-shadow: rgb(35, 72, 39);
+    --tt-danger:      #dc2626;
+    --tt-border:      #e5e7eb;
 }
 
+/* for proper footer positioning */
 body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-color: var(--tt-bg);
+}
+
+.container.mt-4 {
+    flex: 1;
 }
 
 /* Navbar base */
@@ -255,18 +265,39 @@ body {
 /* Bootstrap dropdown overrides */
 .tt-dropdown .dropdown-menu {
     border-radius: 0.75rem;
-    border: 0.063rem solid #e5e7eb;
-    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.12);
+    border: 0.094rem solid var(--tt-light-green);
+    box-shadow: 0 0.5rem 1.5rem rgba(52, 103, 57, 0.15);
     padding: 0.375rem;
     margin-top: 0.375rem !important;
+    background: var(--tt-cream);
 }
+
 .tt-dropdown .dropdown-item {
     border-radius: 0.5rem;
     font-family: 'Nunito', 'Trebuchet MS', Arial, sans-serif;
     font-weight: 600;
     font-size: 0.875rem;
+    color: var(--tt-dark-green);
 }
-.tt-dropdown .dropdown-item.tt-logout { color: #dc2626; }
+
+.tt-dropdown .dropdown-item:hover {
+    background: var(--tt-cream);
+    color: var(--tt-dark-green);
+}
+
+.tt-dropdown .dropdown-item.tt-logout { 
+    color: #dc2626; 
+}
+
+.tt-dropdown .dropdown-item.tt-logout:hover {
+    background: rgba(220, 38, 38, 0.08);
+    color: #dc2626;
+}
+
+.tt-dropdown .dropdown-divider {
+    border-color: var(--tt-light-green);
+    opacity: 1;
+}
 
 /* stack nav links vertically when the hamburger menu is open */
 @media (max-width: 991px) {
@@ -281,4 +312,29 @@ body {
         width: 100%;
         padding: 0.5rem 1rem;
     }
+}
+
+/* footer */
+
+.tt-footer {
+    background: var(--tt-dark-green);
+    border-top: 0.2rem solid var(--tt-dark-shadow);
+    padding: 1.25rem 0;
+    margin-top: auto;
+}
+
+.tt-footer-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(242, 237, 194, 0.7);
+    margin: 0;
+}
+
+.tt-footer-link {
+    color: rgba(242, 237, 194, 0.7);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+.tt-footer-link:hover {
+    color: var(--tt-cream);
 }

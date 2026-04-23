@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import UserProfile
 from django import forms
 
 class RegisterForm(forms.Form):
-    username = forms.CharField(max_length=150)
-    email = forms.EmailField()
-    password1 = forms.CharField(widget=forms.PasswordInput, label='Password')
-    password2 = forms.CharField(widget=forms.PasswordInput, label='Confirm Password')
+    username = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Password')
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Confirm Password')
 
     def clean(self):
         cleaned_data = super().clean()
@@ -19,7 +19,6 @@ class RegisterForm(forms.Form):
         return cleaned_data
 
 def login_view(request):
-    # use Django's built-in form which handles password checking etc
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -28,6 +27,9 @@ def login_view(request):
             return redirect('home')
     else:
         form = AuthenticationForm()
+    # apply Bootstrap class to inputs
+    for field in form.fields.values():
+        field.widget.attrs['class'] = 'form-control'
     return render(request, 'users/login.html', {'form': form})
 
 def logout_view(request):
@@ -48,6 +50,8 @@ def register_view(request):
             return redirect('home')
     else:
         form = RegisterForm()
+    for field in form.fields.values():
+        field.widget.attrs['class'] = 'form-control'
     return render(request, 'users/register.html', {'form': form})
 
 @login_required

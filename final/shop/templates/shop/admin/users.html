@@ -24,9 +24,9 @@
                 <td style="font-family:'Nunito',sans-serif;vertical-align:middle;">{{ user.date_joined|date:"d M Y" }}</td>
                 <td style="vertical-align:middle;">
                     {% if user.is_staff %}
-                        <span style="background:var(--tt-mid-green);color:white;padding:0.2rem 0.6rem;border-radius:0.375rem;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;">Staff</span>
+                        <span style="background:var(--tt-danger);color:white;padding:0.2rem 0.6rem;border-radius:0.375rem;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;">Staff</span>
                     {% else %}
-                        <span style="background:#e5e7eb;color:#666;padding:0.2rem 0.6rem;border-radius:0.375rem;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;">User</span>
+                        <span style="background:var(--tt-light-green);color:var(--tt-dark-green);padding:0.2rem 0.6rem;border-radius:0.375rem;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;">User</span>
                     {% endif %}
                 </td>
             </tr>

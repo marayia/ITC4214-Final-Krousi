@@ -3,6 +3,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'shop/css/home.css' %}">
+<link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
 {% endblock %}
 
 {% block title %}Tabletopia - Trading Cards{% endblock %}
@@ -30,20 +31,28 @@
 </div>
 
 <!-- latest cards -->
-<div class="row g-3">
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="tt-section-title">Latest</h2>
+    <a href="{% url 'shop-index' %}" class="tt-section-link">View all →</a>
+</div>
+<div class="tt-latest-grid">
     {% for card in latest_cards %}
-    <div class="col-6 col-md-3">
         <a href="{% url 'card-detail' card.id %}" class="text-decoration-none">
-            <div class="text-center">
+            <div class="tt-card-item">
                 {% if card.images %}
-                    <img src="{{ card.images.url }}" alt="{{ card.name }}" class="img-fluid rounded">
+                    <div class="tt-card-img-wrap">
+                        <img src="{{ card.images.url }}" alt="{{ card.name }}" class="tt-card-img">
+                    </div>
                 {% else %}
-                    <img src="https://placehold.co/200x280?text={{ card.name }}" alt="{{ card.name }}" class="img-fluid rounded">
+                    <div class="tt-card-placeholder">
+                        <span>{{ card.name }}</span>
+                    </div>
                 {% endif %}
-                <p class="mt-2 fw-bold" style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:rgb(52,103,57);">{{ card.name }}</p>
+                <div class="tt-card-info">
+                    <p class="tt-card-name">{{ card.name }}</p>
+                </div>
             </div>
         </a>
-    </div>
     {% empty %}
         <p class="text-muted">No cards yet.</p>
     {% endfor %}

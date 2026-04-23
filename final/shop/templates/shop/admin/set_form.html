@@ -1,6 +1,17 @@
 {% extends "shop/base.html" %}
+{% load static %}
+
+{% block extra_js %}
+<script src="{% static 'shop/js/admin_set_form.js' %}"></script>
+{% endblock %}
+
 {% block title %}{{ action }} Set - Tabletopia{% endblock %}
 {% block content %}
+
+<!-- just in case of an error not accounted for -->
+{% if error %}
+    <div class="alert alert-danger rounded-3 mb-3" style="font-family:'Nunito',sans-serif;">{{ error }}</div>
+{% endif %}
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 style="font-family:'Press Start 2P',monospace;font-size:1rem;color:var(--tt-dark-green);">{{ action }} Set</h1>
@@ -12,17 +23,17 @@
 
         <div class="mb-3">
             <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Name</label>
-            <input type="text" name="name" class="form-control" value="{{ set.name }}" required>
+            <input type="text" name="name" class="form-control" value="{{ set.name }}" maxlength="60" minlength="1" required>
         </div>
 
         <div class="mb-3">
             <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Code</label>
-            <input type="text" name="code" class="form-control" value="{{ set.code }}" placeholder="e.g. TWM" required>
+            <input type="text" name="code" class="form-control" value="{{ set.code }}" maxlength="10" placeholder="e.g. TWM" required>
         </div>
 
         <div class="mb-4">
             <label class="form-label" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">Slug</label>
-            <input type="text" name="slug" class="form-control" value="{{ set.slug }}" placeholder="e.g. twilight-masquerade" required>
+            <input type="text" name="slug" class="form-control" value="{{ set.slug }}" maxlength="60" minlength="2" pattern="[a-z0-9-]+" placeholder="e.g. twilight-masquerade"  required>
         </div>
 
         <div class="d-flex gap-2">

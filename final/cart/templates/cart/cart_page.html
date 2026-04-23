@@ -1,0 +1,72 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}Cart - Tabletopia{% endblock %}
+
+{% block content %}
+<h1 class="mb-4" style="font-family:'Press Start 2P',monospace;font-size:1rem;color:var(--tt-dark-green);">My Cart</h1>
+
+{% if items %}
+<div class="row g-4">
+    <div class="col-md-8">
+        <div class="bg-white rounded-3 shadow-sm overflow-hidden">
+            <table class="table mb-0">
+                <thead style="background:var(--tt-light-green);">
+                    <tr>
+                        <th style="font-family:'Nunito',sans-serif;">Card</th>
+                        <th style="font-family:'Nunito',sans-serif;">Price</th>
+                        <th style="font-family:'Nunito',sans-serif;">Qty</th>
+                        <th style="font-family:'Nunito',sans-serif;">Subtotal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td style="vertical-align:middle;">
+                            <div class="d-flex align-items-center gap-3">
+                                {% if item.card.images %}
+                                    <img src="{{ item.card.images.url }}" width="40" height="56" style="object-fit:cover;border-radius:0.25rem;">
+                                {% else %}
+                                    <div style="width:40px;height:56px;background:var(--tt-light-green);border-radius:0.25rem;"></div>
+                                {% endif %}
+                                <div>
+                                    <p class="mb-0" style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">{{ item.card.name }}</p>
+                                    <p class="mb-0" style="font-family:'Nunito',sans-serif;font-size:0.8rem;color:#888;">{{ item.card.set.code }} · {{ item.card.card_number }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="font-family:'Nunito',sans-serif;vertical-align:middle;">${{ item.card.price }}</td>
+                        <td style="font-family:'Nunito',sans-serif;vertical-align:middle;">{{ item.quantity }}</td>
+                        <td style="font-family:'Nunito',sans-serif;font-weight:700;vertical-align:middle;">${{ item.subtotal|floatformat:2 }}</td>
+                        <td style="vertical-align:middle;">
+                            <a href="{% url 'remove-from-cart' item.id %}" style="color:#dc2626;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;text-decoration:none;">Remove</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <h2 style="font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:700;color:var(--tt-dark-green);margin-bottom:1rem;">Order Summary</h2>
+            <div class="d-flex justify-content-between mb-3">
+                <span style="font-family:'Nunito',sans-serif;color:#666;">Total</span>
+                <span style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">${{ total|floatformat:2 }}</span>
+            </div>
+            <a href="{% url 'checkout' %}" class="btn w-100" style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">Checkout</a>
+            <a href="{% url 'shop-index' %}" class="btn w-100 mt-2" style="border:0.094rem solid var(--tt-light-green);color:var(--tt-dark-green);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">Continue Shopping</a>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="text-center py-5">
+    <p style="font-family:'Nunito',sans-serif;font-size:1.1rem;color:#888;">Your cart is empty.</p>
+    <a href="{% url 'shop-index' %}" class="btn mt-2" style="background:var(--tt-dark-green);color:var(--tt-cream);border-radius:1rem;font-family:'Nunito',sans-serif;font-weight:700;">Browse Cards</a>
+</div>
+{% endif %}
+
+{% endblock %}

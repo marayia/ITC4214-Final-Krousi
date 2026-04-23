@@ -38,7 +38,11 @@
         <div class="profile-actions">
             <a href="{% url 'edit-profile' %}" class="profile-btn-primary">Edit Profile</a>
             <a href="{% url 'dashboard' %}" class="profile-btn-secondary">Dashboard</a>
+            {% if request.user.is_staff %}
+                <a href="{% url 'admin-dashboard' %}" class="profile-btn-danger">Admin Panel</a>
+            {% endif %}
         </div>
+
     </div>
 
 </div>

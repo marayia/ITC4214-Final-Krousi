@@ -103,3 +103,18 @@
     background: var(--tt-cream);
     border-color: var(--tt-mid-green);
 }
+
+/* for latest grid cards */
+.tt-latest-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+@media (max-width: 767px) {
+    .tt-latest-grid {
+        min-width: 0;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
