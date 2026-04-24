@@ -63,7 +63,7 @@
                             <img src="{{ purchase.card.images.url }}" width="30" height="42" style="object-fit:cover;border-radius:0.25rem;">
                         {% endif %}
                         <div>
-                            <a href="{% url 'card-detail' purchase.card.id %}" style="font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;color:var(--tt-dark-green);text-decoration:none;">{{ purchase.card.name }}</a>
+                            <a href="{% url 'card-detail' purchase.card.id %}" style="font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;color:var(--tt-dark-green);text-decoration:none;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">{{ purchase.card.name }}</a>
                             <p class="mb-0" style="font-family:'Nunito',sans-serif;font-size:0.75rem;color:#888;">{{ purchase.quantity }}x · ${{ purchase.price_at_purchase }}</p>
                         </div>
                     </div>
