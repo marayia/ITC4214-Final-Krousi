@@ -1,12 +1,13 @@
+# models.py - UserProfile model extending Django's built-in User with extra fields
 from django.db import models
 
-# Create your models here.
-
+# extends the built-in User model with profile picture, bio and header color
 class UserProfile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True)
     bio = models.TextField(blank=True, max_length=150)
 
+    # header color choices for the profile card
     HEADER_COLORS = [
         ('#344657', 'Forest'),
         ('#79ae6f', 'Sage'),

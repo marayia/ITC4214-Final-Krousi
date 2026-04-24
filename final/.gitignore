@@ -3,10 +3,6 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Django
-db.sqlite3
-media/
-
 # Environment
 .env
 venv/

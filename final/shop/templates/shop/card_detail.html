@@ -5,9 +5,14 @@
 <link rel="stylesheet" href="{% static 'shop/css/card_detail.css' %}">
 {% endblock %}
 
+{% block extra_js %}
+<script src="{% static 'shop/js/rating.js' %}"></script>
+{% endblock %}
+
 {% block title %}{{ card.name }} - Tabletopia{% endblock %}
 
 {% block content %}
+{% csrf_token %}
 <a href="{% url 'shop-index' %}" class="tt-btn-back mb-3 d-inline-block">← Back to Shop</a>
 <div class="row g-4">
 
@@ -34,7 +39,7 @@
             <!-- stock status -->
             {% if card.stock == 0 %}
                 <p style="font-family:'Nunito',sans-serif;color:#dc2626;font-weight:700;">Out of Stock</p>
-            {% elif card.stock <= 3 %}
+            {% elif card.stock <= 1 %}
                 <p style="font-family:'Nunito',sans-serif;color:#f59e0b;font-weight:700;">Only {{ card.stock }} left!</p>
             {% else %}
                 <p style="font-family:'Nunito',sans-serif;color:var(--tt-mid-green);font-weight:700;">In Stock</p>
@@ -68,6 +73,30 @@
                 {% endif %}
             </div>
 
+            <!-- star rating - logged in users only -->
+            <hr style="border-color:var(--tt-light-green);margin-top:1.5rem;">
+            {% if request.user.is_authenticated %}
+                <div class="tt-rating mb-3" data-card-id="{{ card.id }}" data-url="{% url 'rate-card' card.id %}">
+                    <div class="tt-stars" id="star-display">
+                        {% for i in "12345" %}
+                            <span class="tt-star {% if forloop.counter <= user_rating %}active{% endif %}"
+                                data-value="{{ forloop.counter }}">★</span>
+                        {% endfor %}
+                    </div>
+                    <p class="tt-rating-info" id="rating-info">
+                        {% if avg_rating %}
+                            {{ avg_rating }}/5 ({{ rating_count }} rating{{ rating_count|pluralize }})
+                        {% else %}
+                            No ratings yet — be the first!
+                        {% endif %}
+                    </p>
+                </div>
+            {% else %}
+                <p style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:#888;">
+                    <a href="{% url 'login' %}" style="color:var(--tt-mid-green);font-weight:700;">Log in</a> to rate this card.
+                </p>
+            {% endif %}
+
             <!-- edit button for staff only -->
             {% if request.user.is_staff %}
                 <hr style="border-color:var(--tt-light-green);margin-top:1.5rem;">
@@ -76,37 +105,38 @@
 
         </div>
     </div>
-    <!-- Same Set Cards Recommender -->
+
+    <!-- same set cards recommender -->
     {% if similar_cards %}
-    <div class="tt-recommender-section">
-        <h2 class="tt-recommender-title">More from <span>{{ card.set.name }}</span> Set:</h2>
-        <div class="tt-recommender-container">
-            <div class="tt-recommender-grid">
-                {% for similar in similar_cards %}
-                    <a href="{% url 'card-detail' similar.id %}" class="text-decoration-none">
-                        <div class="tt-card-item">
-                            {% if similar.images %}
-                                <div class="tt-card-img-wrap">
-                                    <img src="{{ similar.images.url }}" alt="{{ similar.name }}" class="tt-card-img">
+        <div class="tt-recommender-section">
+            <h2 class="tt-recommender-title">More from <span>{{ card.set.name }}</span> Set:</h2>
+            <div class="tt-recommender-container">
+                <div class="tt-recommender-grid">
+                    {% for similar in similar_cards %}
+                        <a href="{% url 'card-detail' similar.id %}" class="text-decoration-none">
+                            <div class="tt-card-item">
+                                {% if similar.images %}
+                                    <div class="tt-card-img-wrap">
+                                        <img src="{{ similar.images.url }}" alt="{{ similar.name }}" class="tt-card-img">
+                                    </div>
+                                {% else %}
+                                    <div class="tt-card-placeholder">
+                                        <span>{{ similar.name }}</span>
+                                    </div>
+                                {% endif %}
+                                <div class="tt-card-info">
+                                    <p class="tt-card-name">{{ similar.name }}</p>
+                                    <p class="tt-card-price">${{ similar.price }}</p>
                                 </div>
-                            {% else %}
-                                <div class="tt-card-placeholder">
-                                    <span>{{ similar.name }}</span>
-                                </div>
-                            {% endif %}
-                            <div class="tt-card-info">
-                                <p class="tt-card-name">{{ similar.name }}</p>
-                                <p class="tt-card-price">${{ similar.price }}</p>
                             </div>
-                        </div>
-                    </a>
-                {% endfor %}
+                        </a>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'shop-index' %}?set={{ card.set.slug }}" class="tt-recommender-viewall">
+                    View All →
+                </a>
             </div>
-            <a href="{% url 'shop-index' %}?set={{ card.set.slug }}" class="tt-recommender-viewall">
-                View All →
-            </a>
         </div>
-    </div>
     {% endif %}
 
 </div>

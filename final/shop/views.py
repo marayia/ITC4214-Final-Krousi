@@ -1,7 +1,10 @@
+# views.py - public, admin, wishlist and rating views for the shop app
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
-from shop.models import Card, Set, WishlistItem
+from shop.models import Card, Set, WishlistItem, Rating
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 # Public views
 
@@ -55,21 +58,27 @@ def index(request):
         'bounds': bounds,
     })
 
-# recommendations and wishlist handling in the card detail view
+# card detail view with similar cards and wishlist status
 def card_detail(request, id):
     card = get_object_or_404(Card, id=id)
-    # recommend cards from the same set, excluding the current card
-    similar_cards = Card.objects.filter(set=card.set).exclude(id=card.id)[:4]
-    # check if card is in user's wishlist
+    similar_cards = Card.objects.filter(set=card.set).exclude(id=card.id)[:5]
     in_wishlist = False
+    user_rating = 0
+    ratings = Rating.objects.filter(card=card)
+    avg_rating = round(sum(r.stars for r in ratings) / ratings.count(), 1) if ratings.exists() else 0
     if request.user.is_authenticated:
         in_wishlist = WishlistItem.objects.filter(user=request.user, card=card).exists()
+        user_rating_obj = Rating.objects.filter(user=request.user, card=card).first()
+        user_rating = user_rating_obj.stars if user_rating_obj else 0
     return render(request, 'shop/card_detail.html', {
         'card': card,
         'in_wishlist': in_wishlist,
         'similar_cards': similar_cards,
+        'avg_rating': avg_rating,
+        'user_rating': user_rating,
+        'rating_count': ratings.count(),
     })
-
+    
 def about(request):
     return render(request, 'shop/about.html', {})
 
@@ -216,7 +225,9 @@ def admin_users(request):
     users = User.objects.all().order_by('-date_joined')
     return render(request, 'shop/admin/users.html', {'users': users})
 
+
 # Wishlist views
+
 @login_required
 def wishlist_add(request, id):
     card = get_object_or_404(Card, id=id)
@@ -228,3 +239,34 @@ def wishlist_add(request, id):
 def wishlist_remove(request, id):
     WishlistItem.objects.filter(user=request.user, card__id=id).delete()
     return redirect('card-detail', id=id)
+
+
+# Rating view
+
+# accepts POST with 'stars' (1-5), saves or updates the user's rating for the card, and returns new average and count as JSON
+@login_required
+@require_POST
+def rate_card(request, id):
+    card = get_object_or_404(Card, id=id)
+    stars = int(request.POST.get('stars', 0))
+    
+    # validate stars is between 1 and 5
+    if not 1 <= stars <= 5:
+        return JsonResponse({'error': 'Invalid rating'}, status=400)
+    
+    # save or update the rating
+    Rating.objects.update_or_create(
+        user=request.user,
+        card=card,
+        defaults={'stars': stars}
+    )
+    
+    # calculate new average
+    ratings = Rating.objects.filter(card=card)
+    avg = sum(r.stars for r in ratings) / ratings.count()
+    
+    return JsonResponse({
+        'average': round(avg, 1),
+        'count': ratings.count(),
+        'user_rating': stars,
+    })

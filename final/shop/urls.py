@@ -22,4 +22,7 @@ urlpatterns = [
     # wishlist URLs
     path('wishlist/add/<int:id>/', views.wishlist_add, name='wishlist-add'),
     path('wishlist/remove/<int:id>/', views.wishlist_remove, name='wishlist-remove'),
+    
+    # rating URLs
+    path('rate/<int:id>/', views.rate_card, name='rate-card'),
 ]

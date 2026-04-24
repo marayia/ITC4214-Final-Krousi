@@ -133,7 +133,7 @@
 
 /* for admin panel button — red to distinguish it as an admin action */
 .profile-btn-danger {
-    background: #dc2626;
+    background: var(--tt-danger);
     color: white !important;
     text-decoration: none !important;
     font-family: 'Nunito', sans-serif;
@@ -143,7 +143,7 @@
     border-radius: 1.25rem;
     transition: background 0.15s;
 }
-.profile-btn-danger:hover { background: #b91c1c; }
+.profile-btn-danger:hover { background: var(--tt-danger-hover); }
 
 /* pokemon sprite pinned to bottom right of the header */
 .profile-sprite {

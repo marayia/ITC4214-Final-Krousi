@@ -1,8 +1,10 @@
+# models.py - cart and purchase models for the shopping cart and order history
 from django.db import models
 from django.contrib.auth.models import User
 from shop.models import Card
 from django.utils import timezone
 
+# represents a single card in a user's active cart
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     card = models.ForeignKey(Card, on_delete=models.CASCADE)

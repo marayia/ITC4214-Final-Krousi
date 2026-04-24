@@ -34,8 +34,9 @@
                 {% if profile.profile_picture %}
                     <div class="mb-2">
                         <img src="{{ profile.profile_picture.url }}" width="64" height="64"
-                             class="rounded-circle object-fit-cover"
-                             style="border: 0.2rem solid rgb(159, 203, 152);">
+                            class="rounded-circle object-fit-cover"
+                            style="border: 0.2rem solid var(--tt-light-green);"
+                        >
                     </div>
                 {% endif %}
                 <input type="file" name="profile_picture" class="form-control" accept="image/*">

@@ -1,6 +1,6 @@
+# models.py - Set, Card, WishlistItem and Rating models for the shop app
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
 
 # Models for card sets and individual cards (FK)
 class Set(models.Model):
@@ -31,15 +31,15 @@ class Card(models.Model):
     ]
     # card regions
     REGION = [
-    ('en', 'English'),
-    ('jp', 'Japanese'),
-    ('cn', 'Chinese'),
-    ('kr', 'Korean'),
-    ('de', 'German'),
-    ('fr', 'French'),
-    ('it', 'Italian'),
-    ('pt', 'Portuguese'),
-    ('es', 'Spanish'),
+        ('en', 'English'),
+        ('jp', 'Japanese'),
+        ('cn', 'Chinese'),
+        ('kr', 'Korean'),
+        ('de', 'German'),
+        ('fr', 'French'),
+        ('it', 'Italian'),
+        ('pt', 'Portuguese'),
+        ('es', 'Spanish'),
     ]
     
     name = models.CharField(max_length=60) # card name, eg "Dreepy"
@@ -51,10 +51,10 @@ class Card(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2) # card price
     stock = models.IntegerField(default=1)  # how many of this card we have
     
-    
     def __str__(self):
         return f"{self.name} - {self.set.code} {self.card_number}"
 
+# Model for user wishlist items, FK to User and Card, with timestamp
 class WishlistItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
@@ -66,3 +66,16 @@ class WishlistItem(models.Model):
 
     def __str__(self):
         return f"{self.user.username} → {self.card.name}"
+    
+# Model for user ratings of cards, FK to User and Card, 1-5 stars
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    stars = models.IntegerField()  # 1-5
+
+    class Meta:
+        # one rating per user per card
+        unique_together = ('user', 'card')
+
+    def __str__(self):
+        return f"{self.user.username} rated {self.card.name} {self.stars}/5"

@@ -229,3 +229,31 @@
     color: var(--tt-dark-green);
     margin: 0;
 }
+
+/* rating section */
+/* star rating */
+.tt-stars {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.tt-star {
+    font-size: 1.5rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.1s;
+    line-height: 1;
+}
+
+.tt-star.active,
+.tt-star.hover {
+    color: #f59e0b;
+}
+
+.tt-rating-info {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem;
+    color: #888;
+    margin: 0;
+}

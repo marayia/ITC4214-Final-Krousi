@@ -281,7 +281,7 @@ body {
 }
 
 .tt-dropdown .dropdown-item:hover {
-    background: var(--tt-cream);
+    background: rgba(52, 103, 57, 0.08);
     color: var(--tt-dark-green);
 }
 
