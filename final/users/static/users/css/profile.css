@@ -143,7 +143,7 @@
     border-radius: 1.25rem;
     transition: background 0.15s;
 }
-.profile-btn-danger:hover { background: var(--tt-danger-hover); }
+.profile-btn-danger:hover { background: rgb(100, 10, 10); }
 
 /* pokemon sprite pinned to bottom right of the header */
 .profile-sprite {
