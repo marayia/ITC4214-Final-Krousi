@@ -75,18 +75,15 @@
         <div class="bg-white rounded-3 shadow-sm p-4">
             <h2 class="mb-3" style="font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:700;color:var(--tt-dark-green);">Order Summary</h2>
             {% for item in items %}
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-2" style="min-width:0;overflow:hidden;flex:1;">
                     {% if item.card.images %}
-                        <img src="{{ item.card.images.url }}" width="30" height="42" style="object-fit:cover;border-radius:0.25rem;">
+                        <img src="{{ item.card.images.url }}" width="30" height="42" style="object-fit:cover;border-radius:0.25rem;flex-shrink:0;">
                     {% endif %}
-                    <div>
-                        <p class="mb-0" style="font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;color:var(--tt-dark-green);">{{ item.card.name }}</p>
+                    <div style="min-width:0;">
+                        <p class="mb-0" style="font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;color:var(--tt-dark-green);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ item.card.name }}</p>
                         <p class="mb-0" style="font-family:'Nunito',sans-serif;font-size:0.75rem;color:#888;">Qty: {{ item.quantity }}</p>
                     </div>
                 </div>
-                <span style="font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;color:var(--tt-dark-green);">${{ item.subtotal|floatformat:2 }}</span>
-            </div>
             {% endfor %}
             <hr style="border-color:var(--tt-light-green);">
             <div class="d-flex justify-content-between">

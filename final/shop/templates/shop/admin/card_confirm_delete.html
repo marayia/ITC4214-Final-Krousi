@@ -4,7 +4,7 @@
 
 <div class="bg-white rounded-3 shadow-sm p-4" style="max-width:500px;margin:0 auto;">
     <h1 class="mb-3" style="font-family:'Press Start 2P',monospace;font-size:1rem;color:#dc2626;">Delete Card</h1>
-    <p style="font-family:'Nunito',sans-serif;font-size:1rem;">Are you sure you want to delete <strong>{{ card.name }}</strong>? This cannot be undone.</p>
+    <p style="font-family:'Nunito',sans-serif;font-size:1rem;word-break:break-word;">Are you sure you want to delete <strong>{{ card.name }}</strong>? This cannot be undone.</p>
 
     <form method="post">
         {% csrf_token %}

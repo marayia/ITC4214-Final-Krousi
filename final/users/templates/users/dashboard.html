@@ -16,21 +16,21 @@
 {% endif %}
 
 <div class="row g-3">
-    <div class="col-md-4">
-        <div class="bg-white rounded-3 shadow-sm p-4">
-            <h5 style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">My Account</h5>
-            <p style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:#666;margin-bottom:0.5rem;">
-                <strong style="color:var(--tt-dark-green);">Username:</strong> {{ request.user.username }}
-            </p>
-            <p style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:#666;margin-bottom:0.5rem;">
-                <strong style="color:var(--tt-dark-green);">Email:</strong> {{ request.user.email }}
-            </p>
-            <p style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:#666;margin-bottom:1rem;">
-                <strong style="color:var(--tt-dark-green);">Wishlist:</strong> {{ wishlist_items|length }} card{{ wishlist_items|length|pluralize }}
-            </p>
-            <a href="{% url 'edit-profile' %}" style="font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;color:var(--tt-mid-green);text-decoration:none;">Edit Profile →</a>
-        </div>
+<div class="col-md-4">
+    <div class="bg-white rounded-3 shadow-sm p-4">
+        <h5 style="font-family:'Nunito',sans-serif;font-weight:700;color:var(--tt-dark-green);">My Account</h5>
+        <p style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:#666;margin-bottom:0.5rem;">
+            <strong style="color:var(--tt-dark-green);">Username:</strong> {{ request.user.username }}
+        </p>
+        <p style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:#666;margin-bottom:0.5rem;">
+            <strong style="color:var(--tt-dark-green);">Email:</strong> {{ request.user.email }}
+        </p>
+        <p style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:#666;margin-bottom:1rem;">
+            <strong style="color:var(--tt-dark-green);">Wishlist:</strong> {{ wishlist_items|length }} card{{ wishlist_items|length|pluralize }}
+        </p>
+        <a href="{% url 'edit-profile' %}" style="font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;color:var(--tt-mid-green);text-decoration:none;">Edit Profile →</a>
     </div>
+</div>
     <!-- Wishlist -->
     <div class="col-md-4">
         <div class="bg-white rounded-3 shadow-sm p-4">
@@ -42,7 +42,7 @@
                             <img src="{{ item.card.images.url }}" width="30" height="42" style="object-fit:cover;border-radius:0.25rem;">
                         {% endif %}
                         <div>
-                            <a href="{% url 'card-detail' item.card.id %}" style="font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;color:var(--tt-dark-green);text-decoration:none;">{{ item.card.name }}</a>
+                            <a href="{% url 'card-detail' item.card.id %}" style="font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;color:var(--tt-dark-green);text-decoration:none;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">{{ item.card.name }}</a>
                             <p class="mb-0" style="font-family:'Nunito',sans-serif;font-size:0.75rem;color:#888;">${{ item.card.price }}</p>
                         </div>
                     </div>
